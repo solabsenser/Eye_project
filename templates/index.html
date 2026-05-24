@@ -17,6 +17,21 @@ body{
     font-family:Arial;
 }
 
+video{
+    position:absolute;
+    width:100vw;
+    height:100vh;
+    object-fit:cover;
+    opacity:0.18;
+    transform:scaleX(-1);
+}
+
+.overlay{
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
 .title{
     position:absolute;
     top:30px;
@@ -56,17 +71,19 @@ body{
     transition:0.25s;
 }
 
-.card:hover{
-    transform:scale(1.04);
+.card.focused{
+    transform:scale(1.05);
     border-color:#00ffd5;
-    box-shadow:0 0 40px rgba(0,255,213,0.5);
+
+    box-shadow:
+        0 0 40px rgba(0,255,213,0.5);
 }
 
 #gazeCursor{
     position:absolute;
 
-    width:26px;
-    height:26px;
+    width:28px;
+    height:28px;
 
     border-radius:50%;
 
@@ -79,8 +96,6 @@ body{
     pointer-events:none;
 
     transform:translate(-50%, -50%);
-
-    transition:0.05s linear;
 }
 
 </style>
@@ -89,33 +104,48 @@ body{
 
 <body>
 
-<div class="title">
-    GAZE OS
+<video id="webcam" autoplay playsinline></video>
+
+<div class="overlay">
+
+    <div class="title">
+        GAZE OS
+    </div>
+
+    <div class="menu">
+
+        <div class="card">MESSAGES</div>
+        <div class="card">AI</div>
+        <div class="card">MUSIC</div>
+        <div class="card">MAPS</div>
+
+    </div>
+
+    <div id="gazeCursor"></div>
+
 </div>
-
-<div class="menu">
-
-    <div class="card">MESSAGES</div>
-    <div class="card">AI</div>
-    <div class="card">MUSIC</div>
-    <div class="card">MAPS</div>
-
-</div>
-
-<div id="gazeCursor"></div>
 
 <script>
 
+const video = document.getElementById("webcam")
 const cursor = document.getElementById("gazeCursor")
 
-// ДЕМО движение
-let x = 500
-let y = 300
+// Камера
+navigator.mediaDevices.getUserMedia({
+    video:true
+})
+.then(stream => {
+    video.srcObject = stream
+})
+
+// ДЕМО gaze cursor
+let x = window.innerWidth / 2
+let y = window.innerHeight / 2
 
 setInterval(() => {
 
-    x += (Math.random() - 0.5) * 60
-    y += (Math.random() - 0.5) * 60
+    x += (Math.random() - 0.5) * 50
+    y += (Math.random() - 0.5) * 50
 
     x = Math.max(0, Math.min(window.innerWidth, x))
     y = Math.max(0, Math.min(window.innerHeight, y))
@@ -123,7 +153,26 @@ setInterval(() => {
     cursor.style.left = x + "px"
     cursor.style.top = y + "px"
 
-}, 40)
+    // Hover cards
+    document.querySelectorAll(".card").forEach(card => {
+
+        const rect = card.getBoundingClientRect()
+
+        if(
+            x > rect.left &&
+            x < rect.right &&
+            y > rect.top &&
+            y < rect.bottom
+        ){
+            card.classList.add("focused")
+        }
+        else{
+            card.classList.remove("focused")
+        }
+
+    })
+
+}, 30)
 
 </script>
 
