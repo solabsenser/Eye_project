@@ -18,8 +18,10 @@
 
 body{
     overflow:hidden;
+
     background:
-        radial-gradient(circle at top,#1a1a2e,#050510 70%);
+        radial-gradient(circle at top,#151525,#050510 70%);
+
     font-family:Arial;
     color:white;
 }
@@ -28,12 +30,19 @@ body{
 
 video{
     position:absolute;
+
     width:100vw;
     height:100vh;
+
     object-fit:cover;
-    opacity:0.12;
+
+    opacity:0.05;
+
     transform:scaleX(-1);
-    filter:blur(4px);
+
+    filter:
+        blur(8px)
+        brightness(0.45);
 }
 
 /* OVERLAY */
@@ -48,6 +57,7 @@ video{
 
 .topbar{
     position:absolute;
+
     top:25px;
     left:40px;
     right:40px;
@@ -60,17 +70,23 @@ video{
 .logo{
     font-size:34px;
     letter-spacing:5px;
-    color:#ffffff;
+
+    color:white;
+
+    text-shadow:
+        0 0 15px rgba(255,255,255,0.4);
 }
 
 .time{
-    font-size:26px;
-    opacity:0.8;
+    font-size:24px;
+
+    opacity:0.75;
 }
 
 /* AI ORB */
 
 .ai-orb{
+
     position:absolute;
 
     top:50%;
@@ -87,8 +103,8 @@ video{
         radial-gradient(circle,#00ffd5,#0088ff);
 
     box-shadow:
-        0 0 60px rgba(0,255,213,0.7),
-        0 0 120px rgba(0,136,255,0.4);
+        0 0 60px rgba(0,255,213,0.6),
+        0 0 120px rgba(0,136,255,0.25);
 
     animation:pulse 4s infinite;
 }
@@ -96,15 +112,21 @@ video{
 @keyframes pulse{
 
     0%{
-        transform:translate(-50%, -50%) scale(1);
+        transform:
+            translate(-50%, -50%)
+            scale(1);
     }
 
     50%{
-        transform:translate(-50%, -50%) scale(1.08);
+        transform:
+            translate(-50%, -50%)
+            scale(1.06);
     }
 
     100%{
-        transform:translate(-50%, -50%) scale(1);
+        transform:
+            translate(-50%, -50%)
+            scale(1);
     }
 
 }
@@ -112,50 +134,54 @@ video{
 /* DOCK */
 
 .dock{
+
     position:absolute;
 
-    bottom:40px;
+    bottom:38px;
     left:50%;
 
     transform:translateX(-50%);
 
     display:flex;
-    gap:25px;
+    gap:24px;
 
     padding:22px 30px;
 
-    border-radius:40px;
+    border-radius:38px;
 
-    background:rgba(255,255,255,0.06);
+    background:
+        rgba(255,255,255,0.05);
 
     backdrop-filter:blur(20px);
 
-    border:1px solid rgba(255,255,255,0.08);
+    border:
+        1px solid rgba(255,255,255,0.08);
 
     box-shadow:
-        0 0 40px rgba(255,255,255,0.06);
+        0 0 30px rgba(255,255,255,0.05);
 }
 
-/* APP ICONS */
+/* APPS */
 
 .app{
+
     width:95px;
     height:95px;
 
     border-radius:28px;
 
-    background:rgba(255,255,255,0.08);
+    background:
+        rgba(255,255,255,0.06);
 
     display:flex;
     justify-content:center;
     align-items:center;
 
     font-size:15px;
-    text-align:center;
 
     transition:0.25s;
 
-    cursor:pointer;
+    user-select:none;
 }
 
 .app:hover{
@@ -164,10 +190,11 @@ video{
         translateY(-10px)
         scale(1.08);
 
-    background:rgba(0,255,213,0.18);
+    background:
+        rgba(0,255,213,0.18);
 
     box-shadow:
-        0 0 30px rgba(0,255,213,0.4);
+        0 0 25px rgba(0,255,213,0.35);
 }
 
 /* NOTIFICATION */
@@ -185,11 +212,16 @@ video{
 
     border-radius:24px;
 
-    background:rgba(255,255,255,0.06);
+    background:
+        rgba(255,255,255,0.05);
 
     backdrop-filter:blur(20px);
 
-    border:1px solid rgba(255,255,255,0.08);
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 0 25px rgba(255,255,255,0.04);
 
     animation:float 5s infinite;
 }
@@ -200,7 +232,8 @@ video{
 }
 
 .notification-text{
-    opacity:0.75;
+
+    opacity:0.72;
     line-height:1.5;
 }
 
@@ -226,16 +259,16 @@ video{
 
     position:absolute;
 
-    width:30px;
-    height:30px;
+    width:28px;
+    height:28px;
 
     border-radius:50%;
 
     background:#ff00ff;
 
     box-shadow:
-        0 0 25px #ff00ff,
-        0 0 60px #ff00ff;
+        0 0 20px #ff00ff,
+        0 0 50px #ff00ff;
 
     transform:translate(-50%, -50%);
 
@@ -307,21 +340,13 @@ navigator.mediaDevices.getUserMedia({
 
 const cursor = document.getElementById("gazeCursor")
 
-let x = window.innerWidth / 2
-let y = window.innerHeight / 2
+// Мышка вместо random cursor
+document.addEventListener("mousemove",(e)=>{
 
-setInterval(()=>{
+    cursor.style.left = e.clientX + "px"
+    cursor.style.top = e.clientY + "px"
 
-    x += (Math.random()-0.5)*40
-    y += (Math.random()-0.5)*40
-
-    x = Math.max(0, Math.min(window.innerWidth, x))
-    y = Math.max(0, Math.min(window.innerHeight, y))
-
-    cursor.style.left = x + "px"
-    cursor.style.top = y + "px"
-
-},30)
+})
 
 function updateTime(){
 
