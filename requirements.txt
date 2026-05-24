@@ -1,3 +1,4 @@
+python-3.11.9
 opencv-python
 mediapipe==0.10.9
 numpy
