@@ -1,75 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaze OS</title>
 
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body{
-            margin:0;
-            background:black;
-            color:white;
-            font-family:Arial;
-            overflow:hidden;
-        }
+<title>Gaze OS</title>
 
-        .title{
-            position:absolute;
-            top:40px;
-            width:100%;
-            text-align:center;
-            font-size:40px;
-            color:#00ffcc;
-        }
+<style>
 
-        .menu{
-            position:absolute;
-            width:100%;
-            height:100%;
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            grid-template-rows:1fr 1fr;
-            gap:30px;
-            padding:120px;
-            box-sizing:border-box;
-        }
+body{
+    margin:0;
+    overflow:hidden;
+    background:#050510;
+    font-family:Arial;
+}
 
-        .card{
-            background:#111;
-            border:3px solid #00ffcc;
-            border-radius:30px;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-size:40px;
-            transition:0.2s;
-        }
+.title{
+    position:absolute;
+    top:30px;
+    width:100%;
+    text-align:center;
+    font-size:42px;
+    color:white;
+    letter-spacing:4px;
+}
 
-        .card:hover{
-            background:#00ffcc;
-            color:black;
-            transform:scale(1.05);
-        }
+.menu{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    gap:40px;
+    padding:140px;
+    box-sizing:border-box;
+}
 
-    </style>
+.card{
+    background:rgba(255,255,255,0.06);
+    border:2px solid rgba(255,255,255,0.12);
+    border-radius:35px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:42px;
+    color:white;
+
+    backdrop-filter:blur(20px);
+
+    transition:0.25s;
+}
+
+.card:hover{
+    transform:scale(1.04);
+    border-color:#00ffd5;
+    box-shadow:0 0 40px rgba(0,255,213,0.5);
+}
+
+#gazeCursor{
+    position:absolute;
+
+    width:26px;
+    height:26px;
+
+    border-radius:50%;
+
+    background:#ff00ff;
+
+    box-shadow:
+        0 0 25px #ff00ff,
+        0 0 50px #ff00ff;
+
+    pointer-events:none;
+
+    transform:translate(-50%, -50%);
+
+    transition:0.05s linear;
+}
+
+</style>
 
 </head>
+
 <body>
 
-    <div class="title">
-        GAZE OS
-    </div>
+<div class="title">
+    GAZE OS
+</div>
 
-    <div class="menu">
+<div class="menu">
 
-        <div class="card">MESSAGES</div>
-        <div class="card">AI</div>
-        <div class="card">MUSIC</div>
-        <div class="card">MAPS</div>
+    <div class="card">MESSAGES</div>
+    <div class="card">AI</div>
+    <div class="card">MUSIC</div>
+    <div class="card">MAPS</div>
 
-    </div>
+</div>
+
+<div id="gazeCursor"></div>
+
+<script>
+
+const cursor = document.getElementById("gazeCursor")
+
+// ДЕМО движение
+let x = 500
+let y = 300
+
+setInterval(() => {
+
+    x += (Math.random() - 0.5) * 60
+    y += (Math.random() - 0.5) * 60
+
+    x = Math.max(0, Math.min(window.innerWidth, x))
+    y = Math.max(0, Math.min(window.innerHeight, y))
+
+    cursor.style.left = x + "px"
+    cursor.style.top = y + "px"
+
+}, 40)
+
+</script>
 
 </body>
 </html>
