@@ -17,10 +17,11 @@
 }
 
 body{
+
     overflow:hidden;
 
     background:
-        radial-gradient(circle at top,#151525,#050510 70%);
+        radial-gradient(circle at top,#101018,#04040a 75%);
 
     font-family:Arial;
     color:white;
@@ -29,6 +30,7 @@ body{
 /* CAMERA */
 
 video{
+
     position:absolute;
 
     width:100vw;
@@ -48,14 +50,17 @@ video{
 /* OVERLAY */
 
 .overlay{
+
     position:absolute;
+
     width:100%;
     height:100%;
 }
 
-/* TOP BAR */
+/* TOPBAR */
 
 .topbar{
+
     position:absolute;
 
     top:25px;
@@ -68,19 +73,22 @@ video{
 }
 
 .logo{
+
     font-size:34px;
+
     letter-spacing:5px;
 
     color:white;
 
     text-shadow:
-        0 0 15px rgba(255,255,255,0.4);
+        0 0 15px rgba(255,255,255,0.2);
 }
 
 .time{
+
     font-size:24px;
 
-    opacity:0.75;
+    opacity:0.7;
 }
 
 /* AI ORB */
@@ -92,8 +100,8 @@ video{
     top:50%;
     left:50%;
 
-    width:140px;
-    height:140px;
+    width:70px;
+    height:70px;
 
     transform:translate(-50%, -50%);
 
@@ -102,33 +110,95 @@ video{
     background:
         radial-gradient(circle,#00ffd5,#0088ff);
 
-    box-shadow:
-        0 0 60px rgba(0,255,213,0.6),
-        0 0 120px rgba(0,136,255,0.25);
+    opacity:0.75;
 
-    animation:pulse 4s infinite;
+    box-shadow:
+        0 0 30px rgba(0,255,213,0.35),
+        0 0 70px rgba(0,136,255,0.12);
+
+    animation:pulse 5s infinite;
 }
 
 @keyframes pulse{
 
     0%{
+
         transform:
             translate(-50%, -50%)
             scale(1);
     }
 
     50%{
+
         transform:
             translate(-50%, -50%)
-            scale(1.06);
+            scale(1.08);
     }
 
     100%{
+
         transform:
             translate(-50%, -50%)
             scale(1);
     }
+}
 
+/* NOTIFICATION */
+
+.notification{
+
+    position:absolute;
+
+    top:110px;
+    right:40px;
+
+    width:320px;
+
+    padding:20px;
+
+    border-radius:24px;
+
+    background:
+        rgba(255,255,255,0.05);
+
+    backdrop-filter:blur(20px);
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 0 25px rgba(255,255,255,0.04);
+
+    animation:float 5s infinite;
+}
+
+.notification-title{
+
+    font-size:18px;
+
+    margin-bottom:10px;
+}
+
+.notification-text{
+
+    opacity:0.72;
+
+    line-height:1.5;
+}
+
+@keyframes float{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
 }
 
 /* DOCK */
@@ -143,6 +213,7 @@ video{
     transform:translateX(-50%);
 
     display:flex;
+
     gap:24px;
 
     padding:22px 30px;
@@ -195,62 +266,6 @@ video{
 
     box-shadow:
         0 0 25px rgba(0,255,213,0.35);
-}
-
-/* NOTIFICATION */
-
-.notification{
-
-    position:absolute;
-
-    top:110px;
-    right:40px;
-
-    width:320px;
-
-    padding:20px;
-
-    border-radius:24px;
-
-    background:
-        rgba(255,255,255,0.05);
-
-    backdrop-filter:blur(20px);
-
-    border:
-        1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-        0 0 25px rgba(255,255,255,0.04);
-
-    animation:float 5s infinite;
-}
-
-.notification-title{
-    font-size:18px;
-    margin-bottom:10px;
-}
-
-.notification-text{
-
-    opacity:0.72;
-    line-height:1.5;
-}
-
-@keyframes float{
-
-    0%{
-        transform:translateY(0px);
-    }
-
-    50%{
-        transform:translateY(-8px);
-    }
-
-    100%{
-        transform:translateY(0px);
-    }
-
 }
 
 /* CURSOR */
@@ -335,12 +350,13 @@ navigator.mediaDevices.getUserMedia({
     video:true
 })
 .then(stream=>{
+
     video.srcObject = stream
+
 })
 
 const cursor = document.getElementById("gazeCursor")
 
-// Мышка вместо random cursor
 document.addEventListener("mousemove",(e)=>{
 
     cursor.style.left = e.clientX + "px"
