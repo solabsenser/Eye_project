@@ -10,21 +10,33 @@
 
 <style>
 
-body{
+*{
     margin:0;
-    overflow:hidden;
-    background:#050510;
-    font-family:Arial;
+    padding:0;
+    box-sizing:border-box;
 }
+
+body{
+    overflow:hidden;
+    background:
+        radial-gradient(circle at top,#1a1a2e,#050510 70%);
+    font-family:Arial;
+    color:white;
+}
+
+/* CAMERA */
 
 video{
     position:absolute;
     width:100vw;
     height:100vh;
     object-fit:cover;
-    opacity:0.18;
+    opacity:0.12;
     transform:scaleX(-1);
+    filter:blur(4px);
 }
+
+/* OVERLAY */
 
 .overlay{
     position:absolute;
@@ -32,58 +44,190 @@ video{
     height:100%;
 }
 
-.title{
+/* TOP BAR */
+
+.topbar{
     position:absolute;
-    top:30px;
-    width:100%;
-    text-align:center;
-    font-size:42px;
-    color:white;
-    letter-spacing:4px;
+    top:25px;
+    left:40px;
+    right:40px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.menu{
-    position:absolute;
-    width:100%;
-    height:100%;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:1fr 1fr;
-    gap:40px;
-    padding:140px;
-    box-sizing:border-box;
+.logo{
+    font-size:34px;
+    letter-spacing:5px;
+    color:#ffffff;
 }
 
-.card{
+.time{
+    font-size:26px;
+    opacity:0.8;
+}
+
+/* AI ORB */
+
+.ai-orb{
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    width:140px;
+    height:140px;
+
+    transform:translate(-50%, -50%);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(circle,#00ffd5,#0088ff);
+
+    box-shadow:
+        0 0 60px rgba(0,255,213,0.7),
+        0 0 120px rgba(0,136,255,0.4);
+
+    animation:pulse 4s infinite;
+}
+
+@keyframes pulse{
+
+    0%{
+        transform:translate(-50%, -50%) scale(1);
+    }
+
+    50%{
+        transform:translate(-50%, -50%) scale(1.08);
+    }
+
+    100%{
+        transform:translate(-50%, -50%) scale(1);
+    }
+
+}
+
+/* DOCK */
+
+.dock{
+    position:absolute;
+
+    bottom:40px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    display:flex;
+    gap:25px;
+
+    padding:22px 30px;
+
+    border-radius:40px;
+
     background:rgba(255,255,255,0.06);
-    border:2px solid rgba(255,255,255,0.12);
-    border-radius:35px;
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 0 40px rgba(255,255,255,0.06);
+}
+
+/* APP ICONS */
+
+.app{
+    width:95px;
+    height:95px;
+
+    border-radius:28px;
+
+    background:rgba(255,255,255,0.08);
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    font-size:42px;
-    color:white;
+    font-size:15px;
+    text-align:center;
+
+    transition:0.25s;
+
+    cursor:pointer;
+}
+
+.app:hover{
+
+    transform:
+        translateY(-10px)
+        scale(1.08);
+
+    background:rgba(0,255,213,0.18);
+
+    box-shadow:
+        0 0 30px rgba(0,255,213,0.4);
+}
+
+/* NOTIFICATION */
+
+.notification{
+
+    position:absolute;
+
+    top:110px;
+    right:40px;
+
+    width:320px;
+
+    padding:20px;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,0.06);
 
     backdrop-filter:blur(20px);
 
-    transition:0.25s;
+    border:1px solid rgba(255,255,255,0.08);
+
+    animation:float 5s infinite;
 }
 
-.card.focused{
-    transform:scale(1.05);
-    border-color:#00ffd5;
-
-    box-shadow:
-        0 0 40px rgba(0,255,213,0.5);
+.notification-title{
+    font-size:18px;
+    margin-bottom:10px;
 }
+
+.notification-text{
+    opacity:0.75;
+    line-height:1.5;
+}
+
+@keyframes float{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+/* CURSOR */
 
 #gazeCursor{
+
     position:absolute;
 
-    width:28px;
-    height:28px;
+    width:30px;
+    height:30px;
 
     border-radius:50%;
 
@@ -91,11 +235,13 @@ video{
 
     box-shadow:
         0 0 25px #ff00ff,
-        0 0 50px #ff00ff;
+        0 0 60px #ff00ff;
+
+    transform:translate(-50%, -50%);
 
     pointer-events:none;
 
-    transform:translate(-50%, -50%);
+    z-index:999;
 }
 
 </style>
@@ -108,16 +254,39 @@ video{
 
 <div class="overlay">
 
-    <div class="title">
-        GAZE OS
+    <div class="topbar">
+
+        <div class="logo">
+            GAZE OS
+        </div>
+
+        <div class="time" id="time">
+            00:00
+        </div>
+
     </div>
 
-    <div class="menu">
+    <div class="notification">
 
-        <div class="card">MESSAGES</div>
-        <div class="card">AI</div>
-        <div class="card">MUSIC</div>
-        <div class="card">MAPS</div>
+        <div class="notification-title">
+            AI Assistant
+        </div>
+
+        <div class="notification-text">
+            Ready for silent interaction.
+        </div>
+
+    </div>
+
+    <div class="ai-orb"></div>
+
+    <div class="dock">
+
+        <div class="app">MESSAGES</div>
+        <div class="app">AI</div>
+        <div class="app">MUSIC</div>
+        <div class="app">MAPS</div>
+        <div class="app">CALLS</div>
 
     </div>
 
@@ -128,24 +297,23 @@ video{
 <script>
 
 const video = document.getElementById("webcam")
-const cursor = document.getElementById("gazeCursor")
 
-// Камера
 navigator.mediaDevices.getUserMedia({
     video:true
 })
-.then(stream => {
+.then(stream=>{
     video.srcObject = stream
 })
 
-// ДЕМО gaze cursor
+const cursor = document.getElementById("gazeCursor")
+
 let x = window.innerWidth / 2
 let y = window.innerHeight / 2
 
-setInterval(() => {
+setInterval(()=>{
 
-    x += (Math.random() - 0.5) * 50
-    y += (Math.random() - 0.5) * 50
+    x += (Math.random()-0.5)*40
+    y += (Math.random()-0.5)*40
 
     x = Math.max(0, Math.min(window.innerWidth, x))
     y = Math.max(0, Math.min(window.innerHeight, y))
@@ -153,26 +321,22 @@ setInterval(() => {
     cursor.style.left = x + "px"
     cursor.style.top = y + "px"
 
-    // Hover cards
-    document.querySelectorAll(".card").forEach(card => {
+},30)
 
-        const rect = card.getBoundingClientRect()
+function updateTime(){
 
-        if(
-            x > rect.left &&
-            x < rect.right &&
-            y > rect.top &&
-            y < rect.bottom
-        ){
-            card.classList.add("focused")
-        }
-        else{
-            card.classList.remove("focused")
-        }
+    const now = new Date()
 
-    })
+    let h = now.getHours().toString().padStart(2,"0")
+    let m = now.getMinutes().toString().padStart(2,"0")
 
-}, 30)
+    document.getElementById("time").innerText =
+        `${h}:${m}`
+}
+
+setInterval(updateTime,1000)
+
+updateTime()
 
 </script>
 
